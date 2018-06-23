@@ -6,6 +6,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
+import io.realm.Sort;
 import io.realm.annotations.PrimaryKey;
 
 public class Task extends RealmObject {
@@ -16,21 +17,24 @@ public class Task extends RealmObject {
     private String task;
     //EL status será "PENDIENTE" o "COMPLETADO"
     private String status;
-    private Date dateOfCreation;
+    private Date creates;
+    private Date dueTo;
+    private Date completed;
 
     public Task (){
 
     }
 
-    public Task(long id, String task, String status, Date dateOfCreation) {
+    public Task(long id, String task, String status, Date creates, Date dueTo, Date completed) {
         this.id = id;
         this.task = task;
         this.status = status;
-        this.dateOfCreation = dateOfCreation;
+        this.creates = creates;
+        this.dueTo = dueTo;
+        this.completed = completed;
     }
 
     //RECORDAR.... CUIDADO AL HACER SETTASK FUERA DE UNA TRANSACCION!
-
     public long getId() {
         return id;
     }
@@ -55,26 +59,43 @@ public class Task extends RealmObject {
         this.status = status;
     }
 
-    public Date getDateOfCreation() {
-        return dateOfCreation;
+    public Date getCreates() {
+        return creates;
     }
 
-    public void setDateOfCreation(Date dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
+    public void setCreates(Date creates) {
+        this.creates = creates;
     }
 
+    public Date getDueTo() {
+        return dueTo;
+    }
 
-    public boolean createNewTask(Task queryTask){
+    public void setDueTo(Date dueTo) {
+        this.dueTo = dueTo;
+    }
+
+    public Date getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(Date completed) {
+        this.completed = completed;
+    }
+
+    public boolean createAnUpdateNewTask(Task queryTask){
         try{
             // Get a Realm instance for this thread
             Realm realm = Realm.getDefaultInstance();
 
             realm.beginTransaction();
-            long nextID = nextId();
-            if(nextID == 0){
-                return false;
+            if(queryTask.getId() == 0){
+                long nextID = nextId();
+                if(nextID == 0){
+                    return false;
+                }
+                queryTask.setId(nextID);
             }
-            queryTask.setId(nextID);
             Task realmTask = realm.copyToRealmOrUpdate(queryTask);
             realm.commitTransaction();
             return true;
@@ -114,12 +135,16 @@ public class Task extends RealmObject {
         }
     }
 
-    //Falta ordenarlos
     public List<Task> getSpecificTasks(String queryStatus){
         try{
             // Get a Realm instance for this thread
             Realm realm = Realm.getDefaultInstance();
-            RealmResults<Task> queryTask = realm.where(Task.class).equalTo("status", queryStatus).findAll();
+            RealmResults<Task> queryTask;
+            if(queryStatus.matches("COMPLETADO")){
+                queryTask = realm.where(Task.class).equalTo("status", queryStatus).findAll().sort("completed", Sort.ASCENDING);
+            }else{
+                queryTask = realm.where(Task.class).equalTo("status", queryStatus).findAll().sort("dueTo", Sort.ASCENDING);
+            }
             if (queryTask.isEmpty())
                 return null;
             else
@@ -130,11 +155,11 @@ public class Task extends RealmObject {
     }
 
     //Pendiente, si hay dos que se llaman igual???
-    public boolean deleteTask(String queryTask){
+    public boolean deleteTask(long id){
         try{
             // Get a Realm instance for this thread
             Realm realm = Realm.getDefaultInstance();
-            RealmResults<Task> queryTaskforDelete = realm.where(Task.class).equalTo("task", queryTask).findAll();
+            RealmResults<Task> queryTaskforDelete = realm.where(Task.class).equalTo("id", id).findAll();
             if (!queryTaskforDelete.isEmpty()){
                 queryTaskforDelete.get(0).deleteFromRealm();
                 return true;
@@ -146,5 +171,4 @@ public class Task extends RealmObject {
         }
     }
 
-    //FALTA EL UPDATE
 }
