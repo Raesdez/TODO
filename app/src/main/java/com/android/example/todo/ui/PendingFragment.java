@@ -4,12 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.example.todo.R;
+
+import java.util.ArrayList;
 
 
 /**
@@ -62,6 +66,10 @@ public class PendingFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
+
     }
 
     @Override
@@ -72,6 +80,20 @@ public class PendingFragment extends Fragment {
 
         //Aprovecho este view que tiene los elementos del layout para obtener el que quiero
         texto = (TextView) view.findViewById(R.id.test);
+
+        //TODO delete this
+        ArrayList<String> lista = new ArrayList<>();
+        lista.add("Task1");
+        lista.add("Task2");
+
+        //RECYCLERVIEW
+        RecyclerView rv= (RecyclerView) view.findViewById(R.id.recycler_view_p);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+        //ADAPTER
+        TaskAdapter adapter=new TaskAdapter(0,1,lista);
+        rv.setAdapter(adapter);
 
         // Inflate the layout for this fragment
         return view;
