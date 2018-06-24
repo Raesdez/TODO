@@ -64,8 +64,10 @@ public class TaskAdapter extends RecyclerView.Adapter {
         holder.mCompletedCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.mCompletedCheck.setEnabled(false);
+                //holder.mCompletedCheck.setEnabled(false);
+                holder.mCompletedCheck.setClickable(false);
                 holder.mTrashImage.setEnabled(false);
+                holder.mTrashImage.setVisibility(View.GONE);
                 holder.mCardView.setCardBackgroundColor(Color.LTGRAY);
 
                 //TODO: Set completed on DB

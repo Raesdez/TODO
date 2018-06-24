@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.android.example.todo.R;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 
 /**
@@ -29,13 +30,16 @@ public class PendingFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private TextView texto;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    //My parameters
+    private View fragmentView;
 
     public PendingFragment() {
         // Required empty public constructor
@@ -76,10 +80,9 @@ public class PendingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_pending, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_pending, container, false);
 
         //Aprovecho este view que tiene los elementos del layout para obtener el que quiero
-        texto = (TextView) view.findViewById(R.id.test);
 
         //TODO delete this
         ArrayList<String> lista = new ArrayList<>();
@@ -87,7 +90,7 @@ public class PendingFragment extends Fragment {
         lista.add("Task2");
 
         //RECYCLERVIEW
-        RecyclerView rv= (RecyclerView) view.findViewById(R.id.recycler_view_p);
+        RecyclerView rv= (RecyclerView) fragmentView.findViewById(R.id.recycler_view_p);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
@@ -96,7 +99,7 @@ public class PendingFragment extends Fragment {
         rv.setAdapter(adapter);
 
         // Inflate the layout for this fragment
-        return view;
+        return fragmentView;
 
     }
 
@@ -129,11 +132,23 @@ public class PendingFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            if(texto!=null) {
-                String text = texto.getText().toString();
-                text = text + " Cambié";
-                texto.setText(text);
-            }
+
+           if(fragmentView!=null) {
+               //TODO delete this
+               ArrayList<String> lista = new ArrayList<>();
+               lista.add("Task1");
+               lista.add("Task2");
+
+
+               //RECYCLERVIEW
+               RecyclerView rv = (RecyclerView) fragmentView.findViewById(R.id.recycler_view_p);
+               rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+               //ADAPTER
+               TaskAdapter adapter = new TaskAdapter(0, 1, lista);
+               rv.setAdapter(adapter);
+           }
         }
     }
 
