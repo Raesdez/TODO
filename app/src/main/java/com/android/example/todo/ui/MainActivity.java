@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.android.example.todo.R;
 
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity implements TaskFragment.OnFragmentInteractionListener {
 
     /**
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Initializing realm
+        Realm.init(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
