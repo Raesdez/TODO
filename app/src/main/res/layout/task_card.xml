@@ -15,19 +15,19 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/completed_at_label"
+            android:id="@+id/created_at_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_weight="1"
-            android:text="Completed at:"
+            android:text="Created at:"
             android:textSize="14sp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/completed_check"
             card_view:layout_constraintTop_toBottomOf="@+id/due_to_label"
-            tools:text="Completed at:" />
+            tools:text="Created at:" />
 
         <TextView
             android:id="@+id/due_to_date_text"
@@ -46,7 +46,7 @@
             android:id="@+id/due_to_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:text="Due to:"
@@ -66,7 +66,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             card_view:layout_constraintEnd_toStartOf="@+id/trash_image"
-            card_view:layout_constraintStart_toEndOf="@+id/completed_at_label"
+            card_view:layout_constraintStart_toEndOf="@+id/created_at_label"
             card_view:layout_constraintTop_toBottomOf="@+id/due_to_date_text" />
 
         <TextView
@@ -74,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="Task Name"
             android:textColor="@color/cardview_dark_background"
@@ -100,7 +100,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"

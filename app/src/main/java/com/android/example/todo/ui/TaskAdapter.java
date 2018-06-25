@@ -19,26 +19,15 @@ import java.util.ArrayList;
 public class TaskAdapter extends RecyclerView.Adapter {
     //Attributes
     //private Context mContext;
-    int taskId,taskType;
-    ArrayList<String> lista = new ArrayList<>();
+    String taskType;
+    ArrayList<String> lista;
 
 
     //The constructor gets the Context from where it was created
 
-    public TaskAdapter(int taskType, int taskId,ArrayList<String> lista) {
-        //this.mContext = mContext;
-
+    public TaskAdapter(String taskType, ArrayList<String> lista) {
         this.lista = lista;
-
-        if(taskType==0) {
-            lista.add("Tarea Pendiente 1");
-            lista.add("Tarea Pendiente 2");
-        }
-        else
-        {
-            lista.add("Tarea Completada 1");
-            lista.add("Tarea Completada 2");
-        }
+        this.taskType = taskType;
     }
 
 
@@ -55,6 +44,15 @@ public class TaskAdapter extends RecyclerView.Adapter {
 
         final TasksViewHolder holder = (TasksViewHolder) holders; //The holder and it's position
         holder.mTaskName.setText(lista.get(position));
+
+        if(taskType.equals("pending"))
+        {
+            holder.mDueLabel.setText("Due to:");
+        }
+        else if (taskType.equals("completed"))
+        {
+            holder.mDueLabel.setText("Completed at:");
+        }
 
         //TODO: Retrieve data from depending on the type of task
 
@@ -200,7 +198,7 @@ public class TaskAdapter extends RecyclerView.Adapter {
 //El view Holder es algo asi como la celda, es quien referencia a esa celda, que en este caso sería el items model
 class TasksViewHolder extends RecyclerView.ViewHolder {
 
-    TextView mCreatedCompleted, mDue, mTaskName;
+    TextView mCreatedCompleted, mDue, mTaskName,mDueLabel,mCreatedLabel;
     ImageView mTrashImage;
     CheckBox mCompletedCheck;
     CardView mCardView;
@@ -213,18 +211,20 @@ class TasksViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         //Text Views
-        mCreatedCompleted = (TextView) itemView.findViewById(R.id.completed_at_date_text);
-        mDue = (TextView) itemView.findViewById(R.id.due_to_date_text);
-        mTaskName = (TextView) itemView.findViewById(R.id.task_name_text);
+        mCreatedCompleted = itemView.findViewById(R.id.completed_at_date_text);
+        mDue = itemView.findViewById(R.id.due_to_date_text);
+        mTaskName = itemView.findViewById(R.id.task_name_text);
+        mDueLabel =  itemView.findViewById(R.id.due_to_label);
 
         //Image view
-        mTrashImage = (ImageView) itemView.findViewById(R.id.trash_image);
+        mTrashImage = itemView.findViewById(R.id.trash_image);
 
         //Check box
         mCompletedCheck = (CheckBox) itemView.findViewById(R.id.completed_check);
 
         //Card View
         mCardView = (CardView) itemView.findViewById(R.id.task_card_view);
+
     }
 
 

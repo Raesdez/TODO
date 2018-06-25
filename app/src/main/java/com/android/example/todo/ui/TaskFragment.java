@@ -4,34 +4,46 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.example.todo.R;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CompletedFragment.OnFragmentInteractionListener} interface
+ * {@link TaskFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CompletedFragment#newInstance} factory method to
+ * Use the {@link TaskFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CompletedFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+public class TaskFragment extends Fragment {
+
+    //Attributes that come with the Fragment class
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String mFragmentType; //Two types: "pending" or "completed"
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public CompletedFragment() {
+    //My Attributes
+    private View fragmentView;
+
+
+
+
+
+    public TaskFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +53,10 @@ public class CompletedFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CompletedFragment.
+     * @return A new instance of fragment TaskFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static CompletedFragment newInstance(String param1, String param2) {
-        CompletedFragment fragment = new CompletedFragment();
+    public static TaskFragment newInstance(String param1, String param2) {
+        TaskFragment fragment = new TaskFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -57,7 +68,7 @@ public class CompletedFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mFragmentType = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -65,8 +76,13 @@ public class CompletedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        fragmentView = inflater.inflate(R.layout.fragment_task, container, false);
+        setRecycler();
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_completed, container, false);
+        return fragmentView;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -93,6 +109,44 @@ public class CompletedFragment extends Fragment {
         mListener = null;
     }
 
+    //TODO: This will refresh the Fragment
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+
+            setRecycler();
+        }
+    }
+
+    private void setRecycler() {
+        if (fragmentView != null) {
+            //TODO delete this
+            ArrayList<String> lista = new ArrayList<>();
+
+            if (mFragmentType.equals("pending")) {
+                //TODO: retrieve pending task list
+                lista.add("Pending 1");
+                lista.add("Pending 2");
+            } else if (mFragmentType.equals("completed")) {
+                //TODO: retrieve completed talk list
+                lista.add("Completed 1");
+                lista.add("Completed 2");
+            }
+
+
+            //RECYCLERVIEW
+            RecyclerView rv = (RecyclerView) fragmentView.findViewById(R.id.recycler_view_p);
+            rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+            //ADAPTER
+            TaskAdapter adapter = new TaskAdapter(mFragmentType, lista);
+            rv.setAdapter(adapter);
+        } else
+            Log.d("TaskFragment", "The fragment view doesn't exists");
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -104,7 +158,7 @@ public class CompletedFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-       //TODO: Update argument type and name
+        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
