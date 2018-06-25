@@ -24,7 +24,7 @@ import com.android.example.todo.R;
 
 import io.realm.Realm;
 
-public class MainActivity extends AppCompatActivity implements CompletedFragment.OnFragmentInteractionListener,PendingFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements TaskFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
