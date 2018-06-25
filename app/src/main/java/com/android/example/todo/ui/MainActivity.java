@@ -22,7 +22,9 @@ import android.widget.TextView;
 
 import com.android.example.todo.R;
 
-public class MainActivity extends AppCompatActivity implements TaskFragment.OnFragmentInteractionListener {
+import io.realm.Realm;
+
+public class MainActivity extends AppCompatActivity implements CompletedFragment.OnFragmentInteractionListener,PendingFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Initializing realm
+        Realm.init(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
