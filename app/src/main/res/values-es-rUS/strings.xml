@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TODO</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="tab_pending">Pendientes</string>
+    <string name="tab_completed">Completed</string>
+    <string name="created_at">Creado el:</string>
+    <string name="due_to">Para el:</string>
+    <string name="completed_at">Completado el:</string>
+</resources>

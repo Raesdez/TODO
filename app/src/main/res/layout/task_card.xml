@@ -22,7 +22,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_weight="1"
-            android:text="Created at:"
+            android:text="@string/created_at"
             android:textSize="14sp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/completed_check"

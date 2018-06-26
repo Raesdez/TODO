@@ -56,10 +56,10 @@ public class TaskAdapter extends RecyclerView.Adapter {
         holder.mCreatedCompleted.setText(sm.format(lista.get(position).getCreates()));
 
         if (taskType.equals("pending")) {
-            holder.mDueLabel.setText("Due to:");
+            holder.mDueLabel.setText(R.string.due_to);
             holder.mCompletedCheck.setChecked(false);
         } else if (taskType.equals("completed")) {
-            holder.mDueLabel.setText("Completed at:");
+            holder.mDueLabel.setText(R.string.completed_at);
             holder.mCompletedCheck.setChecked(true);
 
         }
