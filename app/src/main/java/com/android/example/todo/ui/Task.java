@@ -1,5 +1,7 @@
 package com.android.example.todo.ui;
 
+import android.util.Log;
+
 import java.util.Date;
 import java.util.List;
 
@@ -88,6 +90,7 @@ public class Task extends RealmObject {
             // Get a Realm instance for this thread
             Realm realm = Realm.getDefaultInstance();
 
+            Log.d("id",String.valueOf(queryTask.getId()));
             realm.beginTransaction();
             if(queryTask.getId() == 0){
                 long nextID = nextId();
@@ -159,16 +162,36 @@ public class Task extends RealmObject {
         try{
             // Get a Realm instance for this thread
             Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
             RealmResults<Task> queryTaskforDelete = realm.where(Task.class).equalTo("id", id).findAll();
             if (!queryTaskforDelete.isEmpty()){
                 queryTaskforDelete.get(0).deleteFromRealm();
+                realm.commitTransaction();
                 return true;
             }else{
-              return false;
+                realm.commitTransaction();
+                return false;
             }
         }catch (Exception e){
             return false;
         }
     }
 
+
+    public boolean updateCompletedTask(Task queryTask){
+        try{
+            // Get a Realm instance for this thread
+            Realm realm = Realm.getDefaultInstance();
+
+            realm.beginTransaction();
+            queryTask.setStatus("COMPLETADO");
+            queryTask.setCompleted(new java.util.Date());
+            Task realmTask = realm.copyToRealmOrUpdate(queryTask);
+            realm.commitTransaction();
+
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

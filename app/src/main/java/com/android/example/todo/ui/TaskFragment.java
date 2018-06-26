@@ -1,8 +1,11 @@
 package com.android.example.todo.ui;
 
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +16,11 @@ import android.view.ViewGroup;
 
 import com.android.example.todo.R;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Realm;
 
 
 /**
@@ -38,6 +45,7 @@ public class TaskFragment extends Fragment {
 
     //My Attributes
     private View fragmentView;
+    private Task tasks;
 
 
 
@@ -78,7 +86,14 @@ public class TaskFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_task, container, false);
+
+        tasks = new Task();
+        //TODO delete later, create sample data
+        createSampleData();
+
         setRecycler();
+
+
 
         // Inflate the layout for this fragment
         return fragmentView;
@@ -114,7 +129,6 @@ public class TaskFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-
             setRecycler();
         }
     }
@@ -122,16 +136,14 @@ public class TaskFragment extends Fragment {
     private void setRecycler() {
         if (fragmentView != null) {
             //TODO delete this
-            ArrayList<String> lista = new ArrayList<>();
+            List<Task> lista = null;
 
             if (mFragmentType.equals("pending")) {
-                //TODO: retrieve pending task list
-                lista.add("Pending 1");
-                lista.add("Pending 2");
+                //Retrieve pending task list
+                lista = tasks.getSpecificTasks("PENDIENTE");
             } else if (mFragmentType.equals("completed")) {
-                //TODO: retrieve completed talk list
-                lista.add("Completed 1");
-                lista.add("Completed 2");
+                //Retrieve completed talk list
+                lista = tasks.getSpecificTasks("COMPLETADO");
             }
 
 
@@ -145,6 +157,34 @@ public class TaskFragment extends Fragment {
             rv.setAdapter(adapter);
         } else
             Log.d("TaskFragment", "The fragment view doesn't exists");
+    }
+
+    private void createSampleData(){
+
+        //Create 2 pendings
+        if(mFragmentType.equals("pending")) {
+            Task queryTask = new Task();
+            queryTask.setId(0);
+            queryTask.setStatus("PENDIENTE");
+            queryTask.setTask("Cambiar Aceite");
+
+            queryTask.setCreates(new java.util.Date());
+            queryTask.setDueTo(new java.util.Date());
+
+            tasks.createAnUpdateNewTask(queryTask);
+        }
+
+        else {
+            Task queryTask2 = new Task();
+            queryTask2.setId(0);
+            queryTask2.setStatus("COMPLETADO");
+            queryTask2.setTask("Tomar la pastilla");
+
+            queryTask2.setCreates(new java.util.Date());
+            queryTask2.setDueTo(new java.util.Date());
+
+            tasks.createAnUpdateNewTask(queryTask2);
+        }
     }
 
     /**
@@ -161,4 +201,5 @@ public class TaskFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
