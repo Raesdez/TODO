@@ -1,6 +1,5 @@
 package com.android.example.todo.ui;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.android.example.todo.R;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter {
@@ -47,6 +45,8 @@ public class TaskAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holders, final int position) {
 
         final TasksViewHolder holder = (TasksViewHolder) holders; //The holder and it's position
+
+        //Put data in the cards
         holder.mTaskName.setText(lista.get(position).getTask());
         holder.task = lista.get(position);
 
@@ -66,9 +66,8 @@ public class TaskAdapter extends RecyclerView.Adapter {
 
         //TODO: Retrieve data from depending on the type of task
 
-        //TODO: Put data in the cards
 
-        //TODO: Add onClick to the check box that will mark the takss as completed
+        //Add onClick to the check box that will mark the tasks as completed
         holder.mCompletedCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +77,7 @@ public class TaskAdapter extends RecyclerView.Adapter {
                     holder.mTrashImage.setEnabled(false);
                     //holder.mTrashImage.setVisibility(View.GONE);
                     holder.mCardView.setCardBackgroundColor(Color.LTGRAY);
-                    //holder.mCardView.setEnabled(false);
+                    holder.mCardView.setEnabled(false);
 
                     //Set completed on DB
                     holder.task.updateCompletedTask(holder.task);
@@ -91,7 +90,7 @@ public class TaskAdapter extends RecyclerView.Adapter {
         });
 
 
-        //TODO: Add onClick to the trash can
+        //Add onClick to the trash can
         holder.mTrashImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +102,7 @@ public class TaskAdapter extends RecyclerView.Adapter {
 
                 //TODO: Confirm Action
 
-                //TODO: Delete on BD
+                //Delete on BD
                 Task complete = new Task();
                 complete.deleteTask(holder.id);
 
@@ -136,7 +135,6 @@ class TasksViewHolder extends RecyclerView.ViewHolder implements View.OnCreateCo
     CheckBox mCompletedCheck;
     CardView mCardView;
 
-    //TODO: I don't know if I can put the object parameters here
     Long id;
     Task task;
 
@@ -166,13 +164,13 @@ class TasksViewHolder extends RecyclerView.ViewHolder implements View.OnCreateCo
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
-        MenuItem myActionItem = menu.add("Some menu item");
+        MenuItem myActionItem = menu.add(R.string.edit);
         myActionItem.setOnMenuItemClickListener(this);
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        // Menu Item Clicked!
+        //TODO: Call edit activity
         return true;
     }
 
