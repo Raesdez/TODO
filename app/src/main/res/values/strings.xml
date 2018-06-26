@@ -11,4 +11,7 @@
     <string name="due_to">Due to:</string>
     <string name="completed_at">Completed at:</string>
     <string name="edit">Edit</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_warning">Do you wan\'t to delete this taks? This can\'t be undone</string>
 </resources>

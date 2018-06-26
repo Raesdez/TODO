@@ -47,6 +47,7 @@ public class TaskFragment extends Fragment {
     private View fragmentView;
     private Task tasks;
 
+    private Context mContext;
 
 
 
@@ -91,6 +92,7 @@ public class TaskFragment extends Fragment {
         //TODO delete later, create sample data
         createSampleData();
 
+
         setRecycler();
 
 
@@ -112,6 +114,7 @@ public class TaskFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
+            mContext= context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -153,7 +156,7 @@ public class TaskFragment extends Fragment {
 
 
             //ADAPTER
-            TaskAdapter adapter = new TaskAdapter(mFragmentType, lista);
+            TaskAdapter adapter = new TaskAdapter(mContext,mFragmentType, lista);
             rv.setAdapter(adapter);
         } else
             Log.d("TaskFragment", "The fragment view doesn't exists");

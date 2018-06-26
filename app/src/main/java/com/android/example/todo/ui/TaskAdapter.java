@@ -1,7 +1,11 @@
 package com.android.example.todo.ui;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -23,13 +27,15 @@ public class TaskAdapter extends RecyclerView.Adapter {
     //private Context mContext;
     String taskType;
     List<Task> lista;
+    Context context;
 
 
     //The constructor gets the Context from where it was created
 
-    public TaskAdapter(String taskType, List<Task> lista) {
+    public TaskAdapter(Context context,String taskType, List<Task> lista) {
         this.lista = lista;
         this.taskType = taskType;
+        this.context = context;
     }
 
 
@@ -64,14 +70,13 @@ public class TaskAdapter extends RecyclerView.Adapter {
 
         }
 
-        //TODO: Retrieve data from depending on the type of task
-
 
         //Add onClick to the check box that will mark the tasks as completed
         holder.mCompletedCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                //It was marked as completed
                 if (holder.mCompletedCheck.isChecked()) {
                     holder.mCompletedCheck.setClickable(false);
                     holder.mTrashImage.setEnabled(false);
@@ -81,8 +86,7 @@ public class TaskAdapter extends RecyclerView.Adapter {
 
                     //Set completed on DB
                     holder.task.updateCompletedTask(holder.task);
-                } else {
-
+                } else {//TODO: Mark as pending
                 }
 
 
@@ -94,17 +98,41 @@ public class TaskAdapter extends RecyclerView.Adapter {
         holder.mTrashImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.mCompletedCheck.setEnabled(false);
-                holder.mTrashImage.setEnabled(false);
-                holder.mCardView.setCardBackgroundColor(Color.LTGRAY);
-                holder.mCardView.setEnabled(false);
-
 
                 //TODO: Confirm Action
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                builder1.setMessage(R.string.delete_warning);
+                builder1.setCancelable(true);
 
-                //Delete on BD
-                Task complete = new Task();
-                complete.deleteTask(holder.id);
+                builder1.setPositiveButton(
+                        R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                holder.mCompletedCheck.setEnabled(false);
+                                holder.mTrashImage.setEnabled(false);
+                                holder.mCardView.setCardBackgroundColor(Color.LTGRAY);
+                                holder.mCardView.setEnabled(false);
+
+                                //Delete on BD
+                                Task complete = new Task();
+                                complete.deleteTask(holder.id);
+
+                                dialog.cancel();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        R.string.no,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+
 
             }
         });

@@ -3,9 +3,13 @@
     <string name="app_name">TODO</string>
     <string name="action_settings">Ajustes</string>
     <string name="tab_pending">Pendientes</string>
-    <string name="tab_completed">Completed</string>
+    <string name="tab_completed">Completado</string>
     <string name="created_at">Creado el:</string>
     <string name="due_to">Para el:</string>
     <string name="completed_at">Completado el:</string>
     <string name="exit">Editar</string>
+    <string name="delete_warning">¿Desea eliminar esta tarea? Esta acción no se puede deshacer</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="edit">Editar</string>
 </resources>
