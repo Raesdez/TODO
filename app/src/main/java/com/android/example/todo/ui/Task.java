@@ -85,6 +85,11 @@ public class Task extends RealmObject {
         this.completed = completed;
     }
 
+    /***
+     * This method saves and update Tasks
+     * @param queryTask
+     * @return
+     */
     public boolean createAnUpdateNewTask(Task queryTask){
         try{
             // Get a Realm instance for this thread
@@ -107,6 +112,10 @@ public class Task extends RealmObject {
         }
     }
 
+    /***
+     * This method generates auto increment id for tasks
+     * @return
+     */
     public long nextId(){
         try{
             // Get a Realm instance for this thread
@@ -124,6 +133,10 @@ public class Task extends RealmObject {
         }
     }
 
+    /***
+     * This method get all Task
+     * @return
+     */
     public List<Task> getAllTasks(){
         try{
             // Get a Realm instance for this thread
@@ -138,6 +151,11 @@ public class Task extends RealmObject {
         }
     }
 
+    /***
+     * This method get completed or pending task and order it
+     * @param queryStatus
+     * @return
+     */
     public List<Task> getSpecificTasks(String queryStatus){
         try{
             // Get a Realm instance for this thread
@@ -157,7 +175,12 @@ public class Task extends RealmObject {
         }
     }
 
-    //Pendiente, si hay dos que se llaman igual???
+
+    /***
+     * This method delete a task using its id
+     * @param id
+     * @return
+     */
     public boolean deleteTask(long id){
         try{
             // Get a Realm instance for this thread
@@ -177,7 +200,11 @@ public class Task extends RealmObject {
         }
     }
 
-
+    /***
+     * This method update status of a task, setting it as "COMPLETADO"
+     * @param queryTask
+     * @return
+     */
     public boolean updateCompletedTask(Task queryTask){
         try{
             // Get a Realm instance for this thread
@@ -186,6 +213,28 @@ public class Task extends RealmObject {
             realm.beginTransaction();
             queryTask.setStatus("COMPLETADO");
             queryTask.setCompleted(new java.util.Date());
+            Task realmTask = realm.copyToRealmOrUpdate(queryTask);
+            realm.commitTransaction();
+
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    /***
+     * This method update status of a task, setting it as "PENDIENTE"
+     * @param queryTask
+     * @return
+     */
+    public boolean updatePendingTask(Task queryTask){
+        try{
+            // Get a Realm instance for this thread
+            Realm realm = Realm.getDefaultInstance();
+
+            realm.beginTransaction();
+            queryTask.setStatus("PENDIENTE");
+            queryTask.setCompleted(null);
             Task realmTask = realm.copyToRealmOrUpdate(queryTask);
             realm.commitTransaction();
 
