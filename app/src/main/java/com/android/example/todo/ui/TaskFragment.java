@@ -1,39 +1,58 @@
 package com.android.example.todo.ui;
 
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.android.example.todo.R;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Realm;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PendingFragment.OnFragmentInteractionListener} interface
+ * {@link TaskFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PendingFragment#newInstance} factory method to
+ * Use the {@link TaskFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PendingFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+public class TaskFragment extends Fragment {
+
+    //Attributes that come with the Fragment class
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private TextView texto;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String mFragmentType; //Two types: "pending" or "completed"
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public PendingFragment() {
+    //My Attributes
+    private View fragmentView;
+    private Task tasks;
+
+    private Context mContext;
+
+
+
+
+    public TaskFragment() {
         // Required empty public constructor
     }
 
@@ -43,11 +62,10 @@ public class PendingFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PendingFragment.
+     * @return A new instance of fragment TaskFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static PendingFragment newInstance(String param1, String param2) {
-        PendingFragment fragment = new PendingFragment();
+    public static TaskFragment newInstance(String param1, String param2) {
+        TaskFragment fragment = new TaskFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,7 +77,7 @@ public class PendingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mFragmentType = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -68,13 +86,19 @@ public class PendingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_pending, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_task, container, false);
 
-        //Aprovecho este view que tiene los elementos del layout para obtener el que quiero
-        texto = (TextView) view.findViewById(R.id.test);
+        tasks = new Task();
+        //TODO delete later, create sample data
+        createSampleData();
+
+
+        setRecycler();
+
+
 
         // Inflate the layout for this fragment
-        return view;
+        return fragmentView;
 
     }
 
@@ -90,6 +114,7 @@ public class PendingFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
+            mContext= context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -107,11 +132,61 @@ public class PendingFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            if(texto!=null) {
-                String text = texto.getText().toString();
-                text = text + " Cambié";
-                texto.setText(text);
+            setRecycler();
+        }
+    }
+
+    private void setRecycler() {
+        if (fragmentView != null) {
+            //TODO delete this
+            List<Task> lista = null;
+
+            if (mFragmentType.equals("pending")) {
+                //Retrieve pending task list
+                lista = tasks.getSpecificTasks("PENDIENTE");
+            } else if (mFragmentType.equals("completed")) {
+                //Retrieve completed talk list
+                lista = tasks.getSpecificTasks("COMPLETADO");
             }
+
+
+            //RECYCLERVIEW
+            RecyclerView rv = (RecyclerView) fragmentView.findViewById(R.id.recycler_view_p);
+            rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+            //ADAPTER
+            TaskAdapter adapter = new TaskAdapter(mContext,mFragmentType, lista);
+            rv.setAdapter(adapter);
+        } else
+            Log.d("TaskFragment", "The fragment view doesn't exists");
+    }
+
+    private void createSampleData(){
+
+        //Create 2 pendings
+        if(mFragmentType.equals("pending")) {
+            Task queryTask = new Task();
+            queryTask.setId(0);
+            queryTask.setStatus("PENDIENTE");
+            queryTask.setTask("Cambiar Aceite");
+
+            queryTask.setCreates(new java.util.Date());
+            queryTask.setDueTo(new java.util.Date());
+
+            tasks.createAnUpdateNewTask(queryTask);
+        }
+
+        else {
+            Task queryTask2 = new Task();
+            queryTask2.setId(0);
+            queryTask2.setStatus("COMPLETADO");
+            queryTask2.setTask("Tomar la pastilla");
+
+            queryTask2.setCreates(new java.util.Date());
+            queryTask2.setDueTo(new java.util.Date());
+
+            tasks.createAnUpdateNewTask(queryTask2);
         }
     }
 
@@ -129,4 +204,5 @@ public class PendingFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

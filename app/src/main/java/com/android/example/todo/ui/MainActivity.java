@@ -23,7 +23,9 @@ import android.widget.TextView;
 
 import com.android.example.todo.R;
 
-public class MainActivity extends AppCompatActivity implements CompletedFragment.OnFragmentInteractionListener,PendingFragment.OnFragmentInteractionListener {
+import io.realm.Realm;
+
+public class MainActivity extends AppCompatActivity implements TaskFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -44,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements CompletedFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Initializing realm
+        Realm.init(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -151,10 +156,10 @@ public class MainActivity extends AppCompatActivity implements CompletedFragment
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return PlaceholderFragment.newInstance(position + 1);
             if(position==0){
-                return PendingFragment.newInstance("","");
+                return TaskFragment.newInstance("pending","");
             }
             else
-                return CompletedFragment.newInstance("hola", "chao");
+                    return TaskFragment.newInstance("completed", "");
 
         }
 
