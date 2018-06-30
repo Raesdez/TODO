@@ -1,9 +1,12 @@
 package com.android.example.todo.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -199,12 +202,22 @@ class TasksViewHolder extends RecyclerView.ViewHolder implements View.OnCreateCo
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         //TODO: Call edit activity
+        Intent intent = new Intent(MainActivity.mContext, NewTodoItemActivity.class);
+        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        Bundle mBundle = new Bundle();
+
+        mBundle.putString("task",String.valueOf(task.getId()));
+        intent.putExtras(mBundle);
+        MainActivity.mContext.startActivity(intent);
+
+
         return true;
     }
 
 
     @Override
     public void onClick(View v) {
+
 
     }
 }

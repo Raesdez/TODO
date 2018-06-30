@@ -1,5 +1,6 @@
 package com.android.example.todo.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
@@ -27,6 +28,8 @@ import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity implements TaskFragment.OnFragmentInteractionListener {
 
+    public static Context mContext;
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -45,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mContext = getApplicationContext();
+
         setContentView(R.layout.activity_main);
 
         //Initializing realm
@@ -71,9 +77,13 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnFr
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), NewTodoItemActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
         });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
 

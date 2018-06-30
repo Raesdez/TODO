@@ -2,6 +2,7 @@ package com.android.example.todo.ui;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -241,6 +242,22 @@ public class Task extends RealmObject {
             return true;
         }catch (Exception e){
             return false;
+        }
+    }
+
+    public Task findByID(long id){
+        try{
+            // Get a Realm instance for this thread
+            Realm realm = Realm.getDefaultInstance();
+            RealmResults<Task> queryTask;
+            queryTask = realm.where(Task.class).equalTo("id", id).findAll();
+
+            if (queryTask.isEmpty())
+                return null;
+            else
+                return queryTask.first();
+        }catch (Exception e){
+            return null;
         }
     }
 }
