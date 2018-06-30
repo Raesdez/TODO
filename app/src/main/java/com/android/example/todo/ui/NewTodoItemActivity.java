@@ -31,6 +31,9 @@ public class NewTodoItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_todo_item);
         selectedDate = new Date();
+        this.setTitle(getString(R.string.create_task_title));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         if(getIntent() != null){
             EditText editTask = findViewById( R.id.editText);
@@ -40,6 +43,7 @@ public class NewTodoItemActivity extends AppCompatActivity {
                 id = (long) Long.valueOf(passedBundle.getString("task"));
                 savedTask = new Task();
                 savedTask = savedTask.findByID(id);
+                this.setTitle(getString(R.string.edit_task_title));
                 if (savedTask != null) {
                     editTask.setText(savedTask.getTask());
                 }
@@ -86,12 +90,12 @@ public class NewTodoItemActivity extends AppCompatActivity {
 
     }
 
-    @Override
+  /*  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
-    }
+    }*/
 
 
 }

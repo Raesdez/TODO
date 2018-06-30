@@ -12,4 +12,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="edit">Edit</string>
+    <string name="agregar_nueva_tarea">Task descripción</string>
+    <string name="aceptar">Add task</string>
+    <string name="edit_task_title">Edit task</string>
+    <string name="create_task_title">Create task</string>
 </resources>

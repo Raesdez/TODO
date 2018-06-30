@@ -8,8 +8,12 @@
     <string name="due_to">Para el:</string>
     <string name="completed_at">Completado el:</string>
     <string name="exit">Editar</string>
-    <string name="delete_warning">¿Desea eliminar esta tarea? Esta acción no se puede deshacer</string>
+    <string name="delete_warning">¿Seguro que desea eliminar esta tarea? Esta acción no se puede deshacer</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="edit">Editar</string>
+    <string name="agregar_nueva_tarea">Descripción de la tarea</string>
+    <string name="aceptar">Añadir tarea</string>
+    <string name="edit_task_title">Editar tarea</string>
+    <string name="create_task_title">Crear tarea</string>
 </resources>

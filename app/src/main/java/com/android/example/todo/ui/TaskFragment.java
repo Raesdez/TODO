@@ -136,6 +136,16 @@ public class TaskFragment extends Fragment {
         }
     }
 
+    /**
+     * In orden to refresh the data when a task is created or updated
+     */
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        setRecycler();
+    }
+
     private void setRecycler() {
         if (fragmentView != null) {
             //TODO delete this

@@ -19,7 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.NewTodoItemActivity"></activity>
+        <activity android:name=".ui.NewTodoItemActivity"
+            android:parentActivityName=".ui.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.android.example.todo.ui.MainActivity"/>></activity>
     </application>
 
 </manifest>
