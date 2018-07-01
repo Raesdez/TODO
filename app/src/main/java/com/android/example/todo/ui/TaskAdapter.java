@@ -59,7 +59,7 @@ public class TaskAdapter extends RecyclerView.Adapter {
         holder.mTaskName.setText(lista.get(position).getTask());
         holder.task = lista.get(position);
 
-        SimpleDateFormat sm = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sm = new SimpleDateFormat("MM/dd/yyyy");
         holder.mDue.setText(sm.format(lista.get(position).getDueTo()));
         holder.id = (lista.get(position)).getId();
         holder.mCreatedCompleted.setText(sm.format(lista.get(position).getCreates()));
@@ -102,7 +102,7 @@ public class TaskAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View view) {
 
-                //TODO: Confirm Action
+                //Confirm Action
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                 builder1.setMessage(R.string.delete_warning);
                 builder1.setCancelable(true);

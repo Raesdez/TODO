@@ -89,9 +89,6 @@ public class TaskFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.fragment_task, container, false);
 
         tasks = new Task();
-        //TODO delete later, create sample data
-        createSampleData();
-
 
         setRecycler();
 
@@ -127,7 +124,10 @@ public class TaskFragment extends Fragment {
         mListener = null;
     }
 
-    //TODO: This will refresh the Fragment
+    /**
+     * This function is called when the fragment is visible again, refreshes the data when changing tabs
+     * @param isVisibleToUser
+     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -172,6 +172,9 @@ public class TaskFragment extends Fragment {
             Log.d("TaskFragment", "The fragment view doesn't exists");
     }
 
+    /**
+     * This function is used to create sample data for testing, it is not used at the end
+     */
     private void createSampleData(){
 
         //Create 2 pendings
