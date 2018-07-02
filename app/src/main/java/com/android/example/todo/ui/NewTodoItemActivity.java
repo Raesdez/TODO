@@ -20,6 +20,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+/**
+ * Esta es una actividad que permite agregar una nueva tarea a la lista del usuario.
+ * La vista consta de varios inputs de  texto, en donde el usuario puede agregar las tareas pendientes que desee.
+ * Tambien incluye un calendario, en el que se puede seleccionar la fecha de culminacion de la tarea y por ultimo
+ * un boton, que al ser pulsado interactua con la clase Task, la cual permite guardar en la base de datos
+ * de realm la tarea recien creada, para que cuando se cierre esta actividad vuelva a las lista de cosas por hacer
+ * e incluirá esta nueva tarea.
+ */
 
 public class NewTodoItemActivity extends AppCompatActivity {
     TextView textView;
@@ -66,7 +74,12 @@ public class NewTodoItemActivity extends AppCompatActivity {
 
             }//met
         });
-
+/**
+ * En este método se define la accion que se ejecura cuando el usuario presione el boton de
+ * guardar una nueva actividad. Se castea un objeto de tipo Task al cual se le pasan como
+ * parametros en el constructor todos los atributos necesarios para construir la tarea que
+ * el usuario esta creando y por ultimo ejecuta el metodo createAnUpdateNewTask.
+ */
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
