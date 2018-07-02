@@ -64,10 +64,10 @@ public class NewTodoItemActivity extends AppCompatActivity {
         calendarView.setOnDateChangeListener( new CalendarView.OnDateChangeListener() {
 
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 selectedDate = new Date();
                 try {
-                    selectedDate = formatter.parse(dayOfMonth+"/"+month+"/"+year);
+                    selectedDate = formatter.parse(month+1+"/"+dayOfMonth+"/"+year);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -87,7 +87,7 @@ public class NewTodoItemActivity extends AppCompatActivity {
                 if(savedTask != null){
                     newId = savedTask.getId();
                 }
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+                DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
                 //dateFormat.format(calendarView);
 
                 Task newTask = new Task(newId,textView.getText() + "","PENDIENTE", new java.util.Date(),

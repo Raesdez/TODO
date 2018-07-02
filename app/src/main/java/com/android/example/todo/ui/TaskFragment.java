@@ -45,9 +45,9 @@ public class TaskFragment extends Fragment {
 
     //My Attributes
     private View fragmentView;
-    private Task tasks;
+    private Task tasks; //Realm object
 
-    private Context mContext;
+    private Context mContext; //Context of the app
 
 
 
@@ -92,8 +92,6 @@ public class TaskFragment extends Fragment {
 
         setRecycler();
 
-
-
         // Inflate the layout for this fragment
         return fragmentView;
 
@@ -137,7 +135,7 @@ public class TaskFragment extends Fragment {
     }
 
     /**
-     * In orden to refresh the data when a task is created or updated
+     * In order to refresh the data when a task is created or updated, sets de Recycler again
      */
     @Override
     public void onResume() {
@@ -146,9 +144,11 @@ public class TaskFragment extends Fragment {
         setRecycler();
     }
 
+    /**
+     * Fetches the data from de DB and creates the cards
+     */
     private void setRecycler() {
         if (fragmentView != null) {
-            //TODO delete this
             List<Task> lista = null;
 
             if (mFragmentType.equals("pending")) {

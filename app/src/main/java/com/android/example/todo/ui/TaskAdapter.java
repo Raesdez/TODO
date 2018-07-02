@@ -33,8 +33,9 @@ public class TaskAdapter extends RecyclerView.Adapter {
     Context context;
 
 
-    //The constructor gets the Context from where it was created
-
+    /**
+     * The constructor gets the Context from where it was created
+     */
     public TaskAdapter(Context context,String taskType, List<Task> lista) {
         this.lista = lista;
         this.taskType = taskType;
@@ -50,6 +51,11 @@ public class TaskAdapter extends RecyclerView.Adapter {
     }
 
 
+    /**
+     * Set the data and method for each card on the recycler
+     * @param holders
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holders, final int position) {
 
@@ -66,9 +72,11 @@ public class TaskAdapter extends RecyclerView.Adapter {
 
         if (taskType.equals("pending")) {
             holder.mDueLabel.setText(R.string.due_to);
+            holder.mDue.setText(sm.format(lista.get(position).getDueTo()));
             holder.mCompletedCheck.setChecked(false);
         } else if (taskType.equals("completed")) {
             holder.mDueLabel.setText(R.string.completed_at);
+            holder.mDue.setText(sm.format(lista.get(position).getCompleted()));
             holder.mCompletedCheck.setChecked(true);
 
         }
@@ -86,10 +94,18 @@ public class TaskAdapter extends RecyclerView.Adapter {
                     //holder.mTrashImage.setVisibility(View.GONE);
                     holder.mCardView.setCardBackgroundColor(Color.LTGRAY);
                     holder.mCardView.setEnabled(false);
-
                     //Set completed on DB
                     holder.task.updateCompletedTask(holder.task);
-                } else {//TODO: Mark as pending
+
+                } else {//Mark as pending
+                    holder.mCompletedCheck.setClickable(false);
+                    holder.mTrashImage.setEnabled(false);
+                    //holder.mTrashImage.setVisibility(View.GONE);
+                    holder.mCardView.setCardBackgroundColor(Color.LTGRAY);
+                    holder.mCardView.setEnabled(false);
+
+                    //Set pending on DB
+                    holder.task.updatePendingTask(holder.task);
                 }
 
 
@@ -192,6 +208,12 @@ class TasksViewHolder extends RecyclerView.ViewHolder implements View.OnCreateCo
 
     }
 
+    /**
+     * Method that creates a menu on long press
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -199,9 +221,13 @@ class TasksViewHolder extends RecyclerView.ViewHolder implements View.OnCreateCo
         myActionItem.setOnMenuItemClickListener(this);
     }
 
+    /**
+     * When the menu item is selected, it call the Edit Activity
+     * @param item
+     * @return
+     */
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        //TODO: Call edit activity
         Intent intent = new Intent(MainActivity.mContext, NewTodoItemActivity.class);
         intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
         Bundle mBundle = new Bundle();

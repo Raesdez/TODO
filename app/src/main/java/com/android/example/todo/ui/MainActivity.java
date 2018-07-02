@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnFr
         });
 
     }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -110,6 +112,11 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnFr
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**
+     * This is used for interactions between Fragments and this Activity
+     * @param uri
+     */
     @Override
     public void onFragmentInteraction(Uri uri) {
 
@@ -175,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnFr
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 2 total pages.
             return 2;
         }
     }
