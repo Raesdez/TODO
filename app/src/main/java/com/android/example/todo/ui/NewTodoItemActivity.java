@@ -55,9 +55,12 @@ public class NewTodoItemActivity extends AppCompatActivity {
                 if (savedTask != null) {
                     editTask.setText(savedTask.getTask());
                 }
-            }
         }
-
+/**
+ * El onSelectedDayChange que se le aplico al calendarView sirve para preparar los parametros que se pasaran en el Task
+ * para preparar la data en realm.
+ * Se parsea la data escogida para que lo pueda tomar el metodo que guarda en realm.
+ */
         Button button = (Button)findViewById(R.id.button_add);
         textView = (TextView)findViewById(R.id.editText);
         final CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
